@@ -1,0 +1,854 @@
+<!doctype html><html lang="hu"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LaikuShowroom V15</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#080a0f;color:#f4f4f5;font-family:Arial,sans-serif}header{position:fixed;top:0;left:0;right:0;z-index:30;background:#050609ee;border-bottom:0;backdrop-filter:blur(14px)}.head,main,footer{max-width:1280px;margin:auto;padding:20px}.head{display:flex;gap:20px;align-items:center;justify-content:space-between}.logo{font-size:30px;font-weight:900;letter-spacing:.18em}.l{color:#22d3ee}.s{color:#a78bfa}.r{color:#f59e0b}.madeby{text-align:right;color:#52525b;font-size:11px;letter-spacing:.12em;margin-top:6px}.sub{font-size:11px;color:#71717a;letter-spacing:.3em;margin-top:5px}.search{width:320px;max-width:100%;padding:13px 16px;border-radius:18px;border:1px solid #ffffff1a;background:#ffffff0d;color:#fff}.cats{display:flex;flex-wrap:wrap;gap:8px;margin:0;position:fixed;left:0;right:0;top:89px;z-index:29;background:#080a0ff2;padding:12px max(20px,calc((100vw - 1280px)/2 + 20px));border-bottom:1px solid #ffffff12;backdrop-filter:blur(12px)}.cats button{border:0;border-radius:99px;padding:9px 16px;background:#ffffff0d;color:#d4d4d8;cursor:pointer}.cats button.active{background:#22d3ee;color:#000;font-weight:bold}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{overflow:hidden;border:1px solid #ffffff1a;border-radius:25px;background:#ffffff09}.pic{aspect-ratio:16/9;width:100%;object-fit:cover;display:block;background:#18181b;cursor:pointer;transition:.3s}.pic:hover{transform:scale(1.02)}.info{padding:18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.title{font-weight:bold}.file{font-size:12px;color:#71717a;margin-top:5px}.dl{background:#22d3ee;color:#000;border:0;border-radius:12px;padding:11px 15px;font-weight:bold;cursor:pointer}.empty{color:#71717a;padding:80px 0;text-align:center;grid-column:1/-1}footer{margin-top:40px;border-top:1px solid #ffffff1a;color:#52525b;font-size:12px}.modal{display:none;position:fixed;inset:0;z-index:50;background:#000e;align-items:center;justify-content:center;padding:20px}.modal.open{display:flex}.modalbox{max-width:1100px;width:100%}.modal img{max-width:100%;max-height:80vh;display:block;margin:auto;border-radius:18px}.modalbar{display:flex;justify-content:space-between;align-items:center;margin-top:15px}.nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:52px;height:72px;border:0;border-radius:14px;background:#ffffff14;color:#fff;font-size:34px;cursor:pointer}.nav:hover{background:#ffffff27}.nav.prev{left:22px}.nav.next{right:22px}.close{position:absolute;right:20px;top:20px;border:0;background:#ffffff1a;color:#fff;border-radius:50%;width:45px;height:45px;font-size:24px;cursor:pointer}@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){.head{align-items:stretch;flex-direction:column}.search{width:100%}.grid{grid-template-columns:1fr}.cats{top:145px}main{padding-top:230px!important}}</style></head><body>
+<header><div class="head"><div><div id="galleryTitle" class="logo"></div><div class="sub">WALLPAPER GALLERY</div></div><div><input id="search" class="search" placeholder="Keresés..."><div class="madeby">Made by LaikuS (V15)</div></div></div></header><main style="padding-top:174px"><div id="cats" class="cats"></div><div id="grid" class="grid"></div></main><footer>LaikuShowroom</footer><div id="modal" class="modal"><button class="close" onclick="closeModal()">x</button><button id="prevBtn" class="nav prev" onclick="stepModal(-1)">&#10094;</button><button id="nextBtn" class="nav next" onclick="stepModal(1)">&#10095;</button><div class="modalbox"><img id="modalImg"><div class="modalbar"><div><div id="modalTitle" class="title"></div><div id="modalFile" class="file"></div></div><button id="modalDl" class="dl">Letöltés</button></div></div></div>
+<script>
+/* LAIKUSHOWROOM_DATA_START */
+const GALLERY_DATA={
+  "project": "LaikuShowroom",
+  "version": "V15",
+  "galleryTitle": "LaikuS",
+  "themes": [
+    {
+      "id": "t_TWF0cml4Lw",
+      "name": "Matrix",
+      "folder": "Matrix"
+    },
+    {
+      "id": "t_SnVyYXNzaWMv",
+      "name": "Jurassic",
+      "folder": "Jurassic"
+    },
+    {
+      "id": "t_Rm9yc2FrZW4v",
+      "name": "Forsaken",
+      "folder": "Forsaken"
+    },
+    {
+      "id": "t_QWxpZW5zLw",
+      "name": "Aliens",
+      "folder": "Aliens"
+    }
+  ],
+  "wallpapers": [
+    {
+      "folder": "Matrix",
+      "file": "Codaris.jpg",
+      "title": "Codaris",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L0NvZGFyaXMuanBn"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Cypheron.jpg",
+      "title": "Cypheron",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L0N5cGhlcm9uLmpwZw"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Dathex.jpg",
+      "title": "Dathex",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L0RhdGhleC5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Hexium.jpg",
+      "title": "Hexium",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L0hleGl1bS5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Kryptex.jpg",
+      "title": "Kryptex",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L0tyeXB0ZXguanBn"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Neurex.jpg",
+      "title": "Neurex",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L05ldXJleC5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Nexium.jpg",
+      "title": "Nexium",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L05leGl1bS5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Nexora.jpg",
+      "title": "Nexora",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L05leG9yYS5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Nullaris.jpg",
+      "title": "Nullaris",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L051bGxhcmlzLmpwZw"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Nytrix.jpg",
+      "title": "Nytrix",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L055dHJpeC5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Quantyx.jpg",
+      "title": "Quantyx",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1F1YW50eXguanBn"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Synex.jpg",
+      "title": "Synex",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1N5bmV4LmpwZw"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Syntrix.jpg",
+      "title": "Syntrix",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1N5bnRyaXguanBn"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Vectron.jpg",
+      "title": "Vectron",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1ZlY3Ryb24uanBn"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Virex.jpg",
+      "title": "Virex",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1ZpcmV4LmpwZw"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Virion.jpg",
+      "title": "Virion",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1Zpcmlvbi5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Xynapse.jpg",
+      "title": "Xynapse",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1h5bmFwc2UuanBn"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Zerion.jpg",
+      "title": "Zerion",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1plcmlvbi5qcGc"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Zerocode.jpg",
+      "title": "Zerocode",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1plcm9jb2RlLmpwZw"
+    },
+    {
+      "folder": "Matrix",
+      "file": "Zynapse.jpg",
+      "title": "Zynapse",
+      "theme": "Matrix",
+      "resolution": "1920 x 1080",
+      "id": "w_TWF0cml4L1p5bmFwc2UuanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Brontar.jpg",
+      "title": "Brontar",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvQnJvbnRhci5qcGc"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Drakodon.jpg",
+      "title": "Drakodon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvRHJha29kb24uanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Draxodon.jpg",
+      "title": "Draxodon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvRHJheG9kb24uanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Gorathus.jpg",
+      "title": "Gorathus",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvR29yYXRodXMuanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Gravorn.jpg",
+      "title": "Gravorn",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvR3Jhdm9ybi5qcGc"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Karnyx.jpg",
+      "title": "Karnyx",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvS2Fybnl4LmpwZw"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Kravos.jpg",
+      "title": "Kravos",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvS3Jhdm9zLmpwZw"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Krorax.jpg",
+      "title": "Krorax",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvS3JvcmF4LmpwZw"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Ravodon.jpg",
+      "title": "Ravodon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvUmF2b2Rvbi5qcGc"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Rexaris.jpg",
+      "title": "Rexaris",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvUmV4YXJpcy5qcGc"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Rexovar.jpg",
+      "title": "Rexovar",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvUmV4b3Zhci5qcGc"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Sauryx.jpg",
+      "title": "Sauryx",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvU2F1cnl4LmpwZw"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Tharadon.jpg",
+      "title": "Tharadon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvVGhhcmFkb24uanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Thyrakon.jpg",
+      "title": "Thyrakon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvVGh5cmFrb24uanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Tyrvax.jpg",
+      "title": "Tyrvax",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvVHlydmF4LmpwZw"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Varkodon.jpg",
+      "title": "Varkodon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvVmFya29kb24uanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Velnax.jpg",
+      "title": "Velnax",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvVmVsbmF4LmpwZw"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Velocryn.jpg",
+      "title": "Velocryn",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvVmVsb2NyeW4uanBn"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Zeradon.jpg",
+      "title": "Zeradon",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvWmVyYWRvbi5qcGc"
+    },
+    {
+      "folder": "Jurassic",
+      "file": "Zoraptor.jpg",
+      "title": "Zoraptor",
+      "theme": "Jurassic",
+      "resolution": "1920 x 1080",
+      "id": "w_SnVyYXNzaWMvWm9yYXB0b3IuanBn"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Draeven.jpg",
+      "title": "Draeven",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vRHJhZXZlbi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Dravorn.jpg",
+      "title": "Dravorn",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vRHJhdm9ybi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Dreveth.jpg",
+      "title": "Dreveth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vRHJldmV0aC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Drevik.jpg",
+      "title": "Drevik",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vRHJldmlrLmpwZw"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Keldryn.jpg",
+      "title": "Keldryn",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vS2VsZHJ5bi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Kharven.jpg",
+      "title": "Kharven",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vS2hhcnZlbi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Korzeth.jpg",
+      "title": "Korzeth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vS29yemV0aC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Kyrnox.jpg",
+      "title": "Kyrnox",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vS3lybm94LmpwZw"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Maldrik.jpg",
+      "title": "Maldrik",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTWFsZHJpay5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Morveth.jpg",
+      "title": "Morveth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTW9ydmV0aC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Morzak.jpg",
+      "title": "Morzak",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTW9yemFrLmpwZw"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Morzyn.jpg",
+      "title": "Morzyn",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTW9yenluLmpwZw"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Narkhel.jpg",
+      "title": "Narkhel",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTmFya2hlbC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Nyrvok.jpg",
+      "title": "Nyrvok",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTnlydm9rLmpwZw"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Nythrak.jpg",
+      "title": "Nythrak",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vTnl0aHJhay5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Tharvyn.jpg",
+      "title": "Tharvyn",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVGhhcnZ5bi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Thervok.jpg",
+      "title": "Thervok",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVGhlcnZvay5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Valkreth.jpg",
+      "title": "Valkreth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVmFsa3JldGguanBn"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Varkhyn.jpg",
+      "title": "Varkhyn",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVmFya2h5bi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Varzeth.jpg",
+      "title": "Varzeth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVmFyemV0aC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Velkris.jpg",
+      "title": "Velkris",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVmVsa3Jpcy5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Velthar.jpg",
+      "title": "Velthar",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVmVsdGhhci5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Veyrath.jpg",
+      "title": "Veyrath",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVmV5cmF0aC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Vorgrim.jpg",
+      "title": "Vorgrim",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVm9yZ3JpbS5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Vorthen.jpg",
+      "title": "Vorthen",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vVm9ydGhlbi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Xerith.jpg",
+      "title": "Xerith",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vWGVyaXRoLmpwZw"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Zarkhen.jpg",
+      "title": "Zarkhen",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vWmFya2hlbi5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Zerakth.jpg",
+      "title": "Zerakth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vWmVyYWt0aC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Zorvakh.jpg",
+      "title": "Zorvakh",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vWm9ydmFraC5qcGc"
+    },
+    {
+      "folder": "Forsaken",
+      "file": "Zyrveth.jpg",
+      "title": "Zyrveth",
+      "theme": "Forsaken",
+      "resolution": "1920 x 1080",
+      "id": "w_Rm9yc2FrZW4vWnlydmV0aC5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Dravex.jpg",
+      "title": "Dravex",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0RyYXZleC5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Drazhul.jpg",
+      "title": "Drazhul",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0RyYXpodWwuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Kethrix.jpg",
+      "title": "Kethrix",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0tldGhyaXguanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Khaarn.jpg",
+      "title": "Khaarn",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0toYWFybi5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Khaelor.jpg",
+      "title": "Khaelor",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0toYWVsb3IuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Korvax.jpg",
+      "title": "Korvax",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0tvcnZheC5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Kravok.jpg",
+      "title": "Kravok",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0tyYXZvay5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Krazyn.jpg",
+      "title": "Krazyn",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0tyYXp5bi5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Krythos.jpg",
+      "title": "Krythos",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL0tyeXRob3MuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Nexari.jpg",
+      "title": "Nexari",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL05leGFyaS5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Nythrak.jpg",
+      "title": "Nythrak",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL055dGhyYWsuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Rhazek.jpg",
+      "title": "Rhazek",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1JoYXplay5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Saekhar.jpg",
+      "title": "Saekhar",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1NhZWtoYXIuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Solveth.jpg",
+      "title": "Solveth",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1NvbHZldGguanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Threxar.jpg",
+      "title": "Threxar",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1RocmV4YXIuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Thrynn.jpg",
+      "title": "Thrynn",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1Rocnlubi5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Vaelor.jpg",
+      "title": "Vaelor",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1ZhZWxvci5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Varkhul.jpg",
+      "title": "Varkhul",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1ZhcmtodWwuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Vethra.jpg",
+      "title": "Vethra",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1ZldGhyYS5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Vexhul.jpg",
+      "title": "Vexhul",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1ZleGh1bC5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Vorgha.jpg",
+      "title": "Vorgha",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1ZvcmdoYS5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Vornyx.jpg",
+      "title": "Vornyx",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1Zvcm55eC5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Vyrax.jpg",
+      "title": "Vyrax",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1Z5cmF4LmpwZw"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Xarnok.jpg",
+      "title": "Xarnok",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1hhcm5vay5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Xelgor.jpg",
+      "title": "Xelgor",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1hlbGdvci5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Xenvar.jpg",
+      "title": "Xenvar",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1hlbnZhci5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Xyther.jpg",
+      "title": "Xyther",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1h5dGhlci5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Yauthex.jpg",
+      "title": "Yauthex",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1lhdXRoZXguanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Zerath.jpg",
+      "title": "Zerath",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1plcmF0aC5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Zhaarn.jpg",
+      "title": "Zhaarn",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1poYWFybi5qcGc"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Zhaurek.jpg",
+      "title": "Zhaurek",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1poYXVyZWsuanBn"
+    },
+    {
+      "folder": "Aliens",
+      "file": "Zorvath.jpg",
+      "title": "Zorvath",
+      "theme": "Aliens",
+      "resolution": "1920 x 1080",
+      "id": "w_QWxpZW5zL1pvcnZhdGguanBn"
+    }
+  ]
+};
+/* LAIKUSHOWROOM_DATA_END */
+function renderGalleryTitle(){const title=(GALLERY_DATA.galleryTitle||'LAIKUSHOWROOM').trim();if(title.toUpperCase()==='LAIKUSHOWROOM'){galleryTitle.innerHTML='<span class="l">L</span>AIKU<span class="s">S</span>HOW<span class="r">R</span>OOM'}else galleryTitle.textContent=title}renderGalleryTitle();
+let category='Összes',visibleItems=[],modalIndex=-1;const path=x=>`wallpapers/${x.folder}/${x.file}`;function renderCats(){const cs=['Összes',...GALLERY_DATA.themes.map(t=>t.name)];cats.innerHTML=cs.map(c=>`<button class="${c===category?'active':''}" data-cat="${encodeURIComponent(c)}">${c}</button>`).join('');cats.querySelectorAll('button').forEach(b=>b.onclick=()=>{category=decodeURIComponent(b.dataset.cat);render()})}function render(){renderCats();const q=search.value.trim().toLowerCase(),v=GALLERY_DATA.wallpapers.filter(x=>(category==='Összes'||x.theme===category)&&(`${x.title} ${x.theme} ${x.file}`).toLowerCase().includes(q));visibleItems=v;grid.innerHTML=v.map(x=>`<article class="card"><img class="pic" src="${path(x)}" alt="${x.title}" data-id="${x.id}"><div class="info"><div><div class="title">${x.file.replace(/\.[^.]+$/,'')}</div><div class="file">${x.resolution||''}</div></div><button class="dl" data-dl="${x.id}">Letöltés</button></div></article>`).join('')||'<div class="empty">Még nincs háttérkép. Az admin.html felületen add hozzá a témákat és képeket.</div>';grid.querySelectorAll('[data-id]').forEach(e=>e.onclick=()=>openModal(e.dataset.id));grid.querySelectorAll('[data-dl]').forEach(e=>e.onclick=()=>downloadItem(e.dataset.dl))}function item(id){return GALLERY_DATA.wallpapers.find(x=>x.id===id)}async function downloadItem(id){const x=item(id);try{const r=await fetch(path(x));if(!r.ok)throw 0;const b=await r.blob(),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=x.file;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000)}catch(e){const a=document.createElement('a');a.href=path(x);a.download=x.file;document.body.appendChild(a);a.click();a.remove()}}function openModal(id){modalIndex=visibleItems.findIndex(x=>x.id===id);const x=item(id);modalImg.src=path(x);modalTitle.textContent=x.file.replace(/\.[^.]+$/,'');modalFile.textContent=x.resolution||'';modalDl.onclick=()=>downloadItem(id);modal.classList.add('open')}function stepModal(dir){if(!visibleItems.length)return;modalIndex=(modalIndex+dir+visibleItems.length)%visibleItems.length;openModal(visibleItems[modalIndex].id)}function closeModal(){modal.classList.remove('open')}document.addEventListener('keydown',e=>{if(!modal.classList.contains('open'))return;if(e.key==='ArrowLeft')stepModal(-1);if(e.key==='ArrowRight')stepModal(1);if(e.key==='Escape')closeModal()});modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});search.addEventListener('input',render);render();
+</script></body></html>
